@@ -1,1 +1,35 @@
-/* You can add global styles to this file, and also import other style files */
+/* Design system mínimo */
+:root {
+  --bg: #0b0f1a;
+  --surface: #121826;
+  --text: #e6e8ef;
+  --muted: #aab1c6;
+  --brand-hero: #0ea5e9;   /* azul */
+  --brand-villain: #ef4444; /* vermelho */
+  --accent: #7c3aed;
+  --radius: 14px;
+  --shadow: 0 18px 50px rgba(0,0,0,.35);
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: var(--text);
+  background: radial-gradient(60% 80% at 50% 0%, #121826 0%, #0b0f1a 60%);
+}
+
+button {
+  appearance: none;
+  border: 0;
+  border-radius: var(--radius);
+  padding: .85rem 1.1rem;
+  background: linear-gradient(180deg, #1f2937, #0f172a);
+  color: var(--text);
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  transition: transform .15s ease, opacity .15s ease, filter .15s ease;
+}
+button:hover { transform: translateY(-1px); filter: brightness(1.05); }
+button:disabled { opacity: .6; cursor: not-allowed; }
