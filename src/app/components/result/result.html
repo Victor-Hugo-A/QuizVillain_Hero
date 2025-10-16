@@ -1,1 +1,19 @@
-<p>result works!</p>
+<section class="result">
+  <figure class="hero">
+    <img [src]="image"
+         [alt]="title"
+         loading="lazy"
+         width="980" height="500">
+  </figure>
+
+  <header class="head">
+    <h2 class="title">{{ title }}</h2>
+    <p class="score">Pontuação final: <b>{{ score }}</b></p>
+  </header>
+
+  <p class="desc">{{ description }}</p>
+
+  <div class="actions">
+    <a class="btn" href="/" aria-label="Refazer quiz">Refazer quiz</a>
+  </div>
+</section>

@@ -1,1 +1,17 @@
-<p>question works!</p>
+<article class="card">
+  <h2 class="prompt">{{ question.prompt }}</h2>
+
+  <ul class="options">
+    @for (opt of question.options; track opt.label) {
+      <li>
+        <button
+          class="option"
+          type="button"
+          (click)="pick.emit(opt.value)"
+          [attr.data-align]="opt.value">
+          {{ opt.label }}
+        </button>
+      </li>
+    }
+  </ul>
+</article>

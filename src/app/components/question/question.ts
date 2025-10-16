@@ -1,11 +1,15 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import type { Question } from '../../models/quiz.model';
 
 @Component({
   selector: 'app-question',
-  imports: [],
+  standalone: true,
+  // 👉 Com @for/@if não precisamos importar NgFor/NgIf
   templateUrl: './question.html',
-  styleUrl: './question.scss'
+  styleUrls: ['./question.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class Question {
-
+export class QuestionComponent {
+  @Input({ required: true }) question!: Question;
+  @Output() pick = new EventEmitter<string>(); // 'hero' | 'villain' | 'neutral'
 }

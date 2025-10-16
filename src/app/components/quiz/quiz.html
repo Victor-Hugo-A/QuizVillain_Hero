@@ -1,1 +1,32 @@
-<p>quiz works!</p>
+<div class="wrap" [attr.data-accent]="headerAccent">
+  <div class="progress">
+    <div class="bar" [style.width.%]="progress()"></div>
+    <div class="meta">
+      @if (!finished()) {
+        <span>Pergunta {{ state().currentIndex + 1 }} de {{ state().total }}</span>
+      } @else {
+        <span>Concluído</span>
+      }
+      <span class="score">Score: {{ score() }}</span>
+    </div>
+  </div>
+
+  @if (!finished()) {
+    <div class="anim-in">
+      <app-question
+        [question]="current()!"
+        (pick)="onPick($event)" />
+    </div>
+  } @else {
+    <div class="anim-in">
+      <app-result
+        [title]="resultTitle()"
+        [description]="resultInfo().desc"
+        [image]="resultInfo().img"
+        [score]="score()" />
+      <div class="again">
+        <button type="button" (click)="reset()">Refazer</button>
+      </div>
+    </div>
+  }
+</div>

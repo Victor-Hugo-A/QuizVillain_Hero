@@ -1,0 +1,20 @@
+.result { display: grid; gap: 16px; }
+.hero {
+  margin: 0;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.06);
+  box-shadow: var(--shadow);
+}
+.hero img { display: block; aspect-ratio: 16/9; object-fit: cover; }
+
+.head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.title { margin: 0; font-size: clamp(1.2rem, 2.8vw, 1.6rem); }
+.score { margin: 0; color: var(--muted); }
+
+.desc { margin: 0 0 8px 0; color: #d9deea; }
+
+.actions {
+  display: flex; gap: 10px; flex-wrap: wrap;
+  .btn { text-decoration: none; background: linear-gradient(180deg, #1d4ed8, #1e40af); padding: .85rem 1.1rem; color: #fff; border-radius: var(--radius); }
+}
