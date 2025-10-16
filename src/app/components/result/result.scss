@@ -9,6 +9,9 @@
   box-shadow: 0 20px 60px rgba(0,0,0,.45);
   display: grid;
   gap: 18px;
+
+  /* dá um respiro antes do footer */
+  margin-bottom: clamp(16px, 2.2vw, 24px);
 }
 
 .result__hero{
@@ -29,10 +32,15 @@
   backdrop-filter: blur(4px);
 }
 
+/* garante alinhamento no topo das duas colunas */
 .result__body{
-  display: grid; grid-template-columns: 1.1fr .9fr; gap: 18px;
+  display: grid;
+  grid-template-columns: 1.1fr .9fr;
+  gap: 18px;
+  align-items: start;
   @media (max-width: 980px){ grid-template-columns: 1fr; }
 }
+
 
 .result__copy{ display:grid; gap:12px; }
 .result__desc{ color:#d9deea; margin:0; }
@@ -64,17 +72,41 @@
   background: rgba(255,255,255,.02);
   border:1px dashed rgba(255,255,255,.12);
   border-radius: 14px;
-  padding: 20px 15px;
-  margin-left: 30px;
+  padding: 12px 14px;
+
+  /* container flex para a lista ocupar o que der e rolar dentro */
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  /* limite de altura adaptativo: nunca minúsculo, nunca gigante */
+  max-height: clamp(260px, 56vh, 200px);
+  /* evita que o cartão ultrapasse para fora do viewport */
+  overflow: hidden;
 }
-.result__details h3{ margin:.2rem 0 8px 0; }
+.result__details h3{ margin:.2rem 0 0 0; }
+
+/* a lista vira um flex-child rolável */
 .result__details ul{
-  list-style:none;margin:0;padding:0;display:grid;gap:6px;max-height: 360px;overflow:auto;
+  list-style:none; margin:0; padding:0;
+  display:grid; gap:6px;
+
+  /* magia: permite o scroll interno sem crescer o container */
+  min-height: 0;          /* necessário para scroll em flex containers */
+  overflow: auto;
 }
 .result__details li{
-  display:flex;align-items:center;gap:10px;
-  padding:6px 0;border-bottom:1px dashed rgba(255,255,255,.08)
+  display:flex; align-items:center; gap:10px;
+  padding:6px 0; border-bottom:1px dashed rgba(255,255,255,.08);
 }
+
+/* scroll bar mais discreta (opcional) */
+.result__details ul::-webkit-scrollbar{ width: 8px; }
+.result__details ul::-webkit-scrollbar-thumb{
+  background: rgba(255,255,255,.14);
+  border-radius: 10px;
+}
+
 .delta[data-type="1"]{color:var(--good,#22c55e)}
 .delta[data-type="-1"]{color:var(--bad,#ef4444)}
 .pts[data-good]{color:var(--good,#22c55e)}
