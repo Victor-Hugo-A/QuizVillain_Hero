@@ -1,0 +1,9 @@
+.hud{display:grid;grid-template-columns:1fr auto auto auto;gap:14px;align-items:center}
+.left{display:grid;gap:8px}
+.timer{display:grid;justify-items:center}
+.counter{font-weight:800;font-size:1.3rem;padding:.2rem .8rem;border-radius:999px;background:#0f172a;border:1px solid rgba(255,255,255,.08)}
+.counter[data-low="1"]{background:#2a0f12;border-color:#3a1316;color:#ffb4b4}
+.lives .heart{font-size:1.1rem;opacity:.35}
+.lives .heart[data-on="1"]{opacity:1;color:#ff6b6b}
+.powers{display:flex;gap:8px;flex-wrap:wrap}
+button.outline{background:transparent;border:1px solid rgba(255,255,255,.2)}

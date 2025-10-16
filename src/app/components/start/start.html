@@ -1,0 +1,48 @@
+<section class="start card anim-in">
+  <header class="start__header">
+    <h2>Configurar Partida</h2>
+    <a routerLink="/leaderboard" class="start__link">Ver Ranking</a>
+  </header>
+
+  <div class="start__grid">
+    <div class="start__group">
+      <label class="start__label">Categoria</label>
+      <div class="start__choices">
+        @for (c of categories; track c) {
+          <button type="button"
+                  class="pill"
+                  [class.is-active]="cfg().category===c"
+                  (click)="setCategory(c)">{{c}}</button>
+        }
+      </div>
+    </div>
+
+    <div class="start__group">
+      <label class="start__label">Dificuldade</label>
+      <div class="start__choices">
+        @for (d of difficulties; track d) {
+          <button type="button"
+                  class="pill"
+                  [class.is-active]="cfg().difficulty===d"
+                  (click)="setDifficulty(d)">{{d}}</button>
+        }
+      </div>
+    </div>
+
+    <div class="start__group">
+      <label class="start__label">Tempo por pergunta</label>
+      <div class="start__choices">
+        @for (t of [10,15,20,30]; track t) {
+          <button type="button"
+                  class="pill"
+                  [class.is-active]="cfg().perQuestionSeconds===t"
+                  (click)="setTime(t)">{{t}}s</button>
+        }
+      </div>
+    </div>
+  </div>
+
+  <footer class="start__footer">
+    <button class="cta" (click)="go()">Começar</button>
+  </footer>
+</section>

@@ -1,19 +1,46 @@
-<section class="result">
-  <figure class="hero">
-    <img [src]="image"
-         [alt]="title"
-         loading="lazy"
-         width="980" height="500">
-  </figure>
+<section class="result card anim-in">
+  <div class="result__hero">
+    <img [src]="imageSrc" [alt]="title" />
+    <div class="result__badge">{{ title }}</div>
+  </div>
 
-  <header class="head">
-    <h2 class="title">{{ title }}</h2>
-    <p class="score">Pontuação final: <b>{{ score }}</b></p>
-  </header>
+  <div class="result__body">
+    <div class="result__copy">
+      <h2>{{ title }}</h2>
+      <p class="result__desc">{{ description }}</p>
 
-  <p class="desc">{{ description }}</p>
+      <div class="result__stats">
+        <div class="stat"><span class="k">{{ st().score }}</span><span class="l">Pontos</span></div>
+        <div class="stat"><span class="k">{{ st().total }}</span><span class="l">Perguntas</span></div>
+        <div class="stat"><span class="k">{{ st().streak }}</span><span class="l">Streak</span></div>
+        <div class="stat"><span class="k">{{ st().lives }}</span><span class="l">Vidas</span></div>
+      </div>
 
-  <div class="actions">
-    <a class="btn" href="/" aria-label="Refazer quiz">Refazer quiz</a>
+      <!-- AÇÕES — agora com "Início" -->
+      <div class="result__actions">
+        <a routerLink="/" class="ghost">Início</a>
+        <a routerLink="/leaderboard" class="ghost">Ver Ranking</a>
+        <button class="share" (click)="share()">Compartilhar</button>
+        <button class="cta" (click)="replay()">Jogar de novo</button>
+      </div>
+    </div>
+
+    <div class="result__details">
+      <h3>Detalhes da partida</h3>
+      <ul>
+        @for (a of st().answers; track a.qid; let i = $index) {
+          <li>
+            <span class="qid">Question {{ i + 1 }}</span>
+            <span class="delta" [attr.data-type]="a.delta">
+              {{ a.delta === 1 ? 'Herói' : a.delta === -1 ? 'Vilão' : 'Neutro' }}
+            </span>
+            <span class="pts" [attr.data-good]="a.gained >= 0 ? 1 : null">
+              {{ a.gained >= 0 ? '+' : '' }}{{ a.gained }}
+            </span>
+            <span class="t">({{ a.timeLeft }}s)</span>
+          </li>
+        }
+      </ul>
+    </div>
   </div>
 </section>

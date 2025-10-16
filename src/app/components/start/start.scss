@@ -1,0 +1,64 @@
+.start {
+  --glass: rgba(255,255,255,.06);
+  --stroke: rgba(255,255,255,.1);
+  padding: clamp(16px, 2.6vw, 28px);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--stroke);
+  border-radius: 18px;
+  background:
+    radial-gradient(120% 120% at 0% 0%, rgba(124,77,255,.12), transparent 40%),
+    radial-gradient(120% 120% at 100% 0%, rgba(34,211,238,.12), transparent 40%),
+    linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
+  box-shadow: 0 20px 60px rgba(0,0,0,.45);
+}
+
+.start__header{
+  display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:6px;
+  h2{margin:0;font-size:clamp(1.2rem,2.2vw,1.6rem)}
+}
+.start__link{
+  color: var(--brand2, #22d3ee);
+  text-decoration: none;
+  font-weight: 600;
+  opacity: .9;
+}
+.start__grid{
+  display:grid;
+  grid-template-columns: repeat(3, minmax(220px,1fr));
+  gap: clamp(12px, 2vw, 18px);
+  margin-top: 10px;
+  @media (max-width: 960px){ grid-template-columns: 1fr; }
+}
+.start__group{ display:grid; gap:10px; }
+.start__label{
+  font-size:.95rem; color:var(--muted,#a9b3c8); letter-spacing:.2px;
+}
+.start__choices{ display:flex; gap:10px; flex-wrap:wrap; }
+
+.pill{
+  --b: rgba(255,255,255,.1);
+  background: linear-gradient(180deg,#1a223a,#151b2f);
+  border: 1px solid var(--b);
+  border-radius: 999px;
+  padding: .55rem .9rem;
+  font-weight: 600; color:#e9ecf5;
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease, background .15s ease;
+  outline: none;
+}
+.pill:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,.25); }
+.pill.is-active{
+  background: linear-gradient(180deg, rgba(124,77,255,.9), rgba(34,211,238,.9));
+  border-color: transparent;
+  box-shadow: 0 6px 18px rgba(124,77,255,.35);
+}
+
+.start__footer{
+  display:flex; justify-content:flex-end; margin-top: 16px;
+}
+.cta{
+  background: linear-gradient(180deg,#2b47e6,#5a31d6);
+  border: 0; color:#fff; font-weight:800;
+  padding:.85rem 1.2rem; border-radius:12px;
+  box-shadow: 0 14px 36px rgba(43,71,230,.35);
+}
+.cta:hover{ filter: brightness(1.05); transform: translateY(-1px); }

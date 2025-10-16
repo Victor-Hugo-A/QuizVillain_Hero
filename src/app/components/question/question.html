@@ -2,13 +2,13 @@
   <h2 class="prompt">{{ question.prompt }}</h2>
 
   <ul class="options">
-    @for (opt of question.options; track opt.label) {
+    @for (opt of question.options; track opt.id) {
       <li>
         <button
           class="option"
           type="button"
-          (click)="pick.emit(opt.value)"
-          [attr.data-align]="opt.value">
+          (click)="pick.emit(opt.id)"
+          [attr.data-align]="opt.delta === 1 ? 'hero' : (opt.delta === -1 ? 'villain' : 'neutral')">
           {{ opt.label }}
         </button>
       </li>

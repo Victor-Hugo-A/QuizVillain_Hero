@@ -4,7 +4,6 @@ import type { Question } from '../../models/quiz.model';
 @Component({
   selector: 'app-question',
   standalone: true,
-  // 👉 Com @for/@if não precisamos importar NgFor/NgIf
   templateUrl: './question.html',
   styleUrls: ['./question.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

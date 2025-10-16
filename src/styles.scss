@@ -1,35 +1,21 @@
-/* Design system mínimo */
-:root {
-  --bg: #0b0f1a;
-  --surface: #121826;
-  --text: #e6e8ef;
-  --muted: #aab1c6;
-  --brand-hero: #0ea5e9;   /* azul */
-  --brand-villain: #ef4444; /* vermelho */
-  --accent: #7c3aed;
-  --radius: 14px;
-  --shadow: 0 18px 50px rgba(0,0,0,.35);
+:root{
+  --bg:#0b0f1a; --surface:#121826; --surface2:#182033;
+  --text:#e9ecf5; --muted:#a9b3c8;
+  --brand:#7c4dff; --brand2:#22d3ee; --good:#22c55e; --bad:#ef4444; --warn:#f59e0b;
+  --radius:16px; --shadow:0 14px 40px rgba(0,0,0,.35);
 }
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:radial-gradient(60% 80% at 50% 0%, #171e31 0%, #0b0f1a 60%);color:var(--text);font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
 
-* { box-sizing: border-box; }
-html, body { height: 100%; }
-body {
-  margin: 0;
-  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  color: var(--text);
-  background: radial-gradient(60% 80% at 50% 0%, #121826 0%, #0b0f1a 60%);
-}
+button{appearance:none;border:0;border-radius:12px;padding:.85rem 1.1rem;background:linear-gradient(180deg,#22304f,#1a223a);color:#fff;box-shadow:var(--shadow);cursor:pointer;transition:transform .15s ease,filter .15s ease,opacity .15s ease}
+button:hover{transform:translateY(-1px);filter:brightness(1.05)}
+button:disabled{opacity:.55;cursor:not-allowed}
 
-button {
-  appearance: none;
-  border: 0;
-  border-radius: var(--radius);
-  padding: .85rem 1.1rem;
-  background: linear-gradient(180deg, #1f2937, #0f172a);
-  color: var(--text);
-  box-shadow: var(--shadow);
-  cursor: pointer;
-  transition: transform .15s ease, opacity .15s ease, filter .15s ease;
+.container{width:min(1100px,92%);margin:0 auto}
+.card{background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
+
+:focus-visible{
+  outline: 2px solid rgba(124,77,255,.7);
+  outline-offset: 2px;
 }
-button:hover { transform: translateY(-1px); filter: brightness(1.05); }
-button:disabled { opacity: .6; cursor: not-allowed; }

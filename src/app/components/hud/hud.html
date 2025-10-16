@@ -1,0 +1,24 @@
+<div class="hud card">
+  <div class="left">
+    <div class="badge">Pergunta {{ index+1 }} / {{ total }}</div>
+    <div class="progress"><i [style.width.%]="progress"></i></div>
+  </div>
+
+  <div class="timer">
+    <span class="label">Tempo</span>
+    <div class="counter" [attr.data-low]="timeLeft<=5 ? '1' : null">{{ timeLeft }}s</div>
+  </div>
+
+  <div class="lives">
+    @for (i of [0,1,2,3,4]; track i) {
+      <span class="heart" [attr.data-on]="i < lives ? '1' : null">♥</span>
+    }
+  </div>
+
+  <div class="powers">
+    <button (click)="freeze.emit()" [disabled]="powerups.freeze<=0" title="Congelar tempo">Freeze ({{powerups.freeze}})</button>
+    <button (click)="dbl.emit()" [disabled]="powerups.double<=0" title="Pontos em dobro">x2 ({{powerups.double<=0?0:1}})</button>
+    <button (click)="skip.emit()" [disabled]="powerups.skip<=0" title="Pular pergunta">Skip ({{powerups.skip}})</button>
+    <button (click)="resume.emit()" title="Retomar tempo" class="outline">▶</button>
+  </div>
+</div>

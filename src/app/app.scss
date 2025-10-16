@@ -1,5 +1,94 @@
-.shell{min-height:100dvh;display:grid;grid-template-rows:auto 1fr auto;gap:20px}
-.topbar{position:sticky;top:0;background:rgba(18,24,38,.6);backdrop-filter:saturate(160%) blur(8px);padding:16px 20px;border-bottom:1px solid rgba(255,255,255,.06)}
-.topbar h1{margin:0;font-size:1.25rem;letter-spacing:.3px}
-.content{width:min(980px,92%);margin:0 auto;padding:12px 0}
-.footer{display:grid;place-items:center;padding:22px;color:var(--muted)}
+/* === Tema base (cores podem ser trocadas depois) === */
+:root{
+  --bg-0: #090c1a;
+  --bg-1: #121633;
+  --stroke: rgba(255,255,255,.08);
+  --text: #e9ecf5;
+  --muted: #a9b3c8;
+  --brand: #7c4dff;   /* roxo */
+  --brand2:#22d3ee;   /* ciano */
+}
+
+/* ===== Layout do app ===== */
+.shell{
+  min-height: 100dvh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  color: var(--text);
+  background:
+    radial-gradient(70% 90% at 50% -10%, var(--bg-1), transparent 60%),
+    linear-gradient(180deg, var(--bg-1), var(--bg-0) 55%);
+}
+
+/* ===== Topbar com vibe de app de quiz ===== */
+.topbar{
+  position: sticky; top: 0; z-index: 10;
+  display: grid; place-items: center;
+  padding: clamp(.9rem, 2.2vw, 1.1rem) 1rem;
+  background: color-mix(in oklab, var(--bg-1) 85%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--stroke);
+  box-shadow: 0 1px 0 rgba(255,255,255,.04), 0 12px 30px rgba(0,0,0,.35);
+}
+
+/* Título com gradiente animado e leve glow */
+.title{
+  margin: 0;
+  font-weight: 900;
+  letter-spacing: .6px;
+  font-size: clamp(1.25rem, 3.2vw, 2rem);
+  line-height: 1.15;
+  background: linear-gradient(90deg, var(--brand), var(--brand2), var(--brand));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 12px color-mix(in oklab, var(--brand) 30%, transparent);
+  animation: titlePulse 6s ease-in-out infinite;
+}
+
+.title .brand{
+  -webkit-text-fill-color: #fff; color:#fff;
+  filter: drop-shadow(0 0 6px color-mix(in oklab, var(--brand2) 60%, transparent));
+}
+
+@keyframes titlePulse{
+  0%,100%{ filter: drop-shadow(0 0 8px color-mix(in oklab, var(--brand) 45%, transparent)); }
+  50%{    filter: drop-shadow(0 0 12px color-mix(in oklab, var(--brand2) 65%, transparent)); }
+}
+
+/* ===== Miolo das páginas ===== */
+.content{
+  width: min(1100px, 92vw);
+  margin: 28px auto 16px;
+}
+
+/* ===== Rodapé ===== */
+.footer{
+  display:grid; place-items:center;
+  padding: 16px 0 22px;
+  color: var(--muted);
+  border-top: 1px solid var(--stroke);
+}
+
+/* ===== Utilidades globais que ajudam a dar vida ===== */
+.anim-in{ animation: fadeInUp .55s ease both; }
+@keyframes fadeInUp{
+  from{ opacity: 0; transform: translateY(12px); }
+  to{   opacity: 1; transform: translateY(0); }
+}
+
+/* Acessibilidade: animação reduzida */
+@media (prefers-reduced-motion: reduce){
+  .anim-in, .title{ animation: none !important; }
+}
+
+/* Focus bonito e consistente */
+:where(button,a,[tabindex]):focus-visible{
+  outline: 2px solid color-mix(in oklab, var(--brand) 70%, white 10%);
+  outline-offset: 2px;
+  border-radius: 10px;
+}
+
+/* Pequenos ajustes para telas menores */
+@media (max-width: 640px){
+  .content{ width: min(100%, 94vw); margin-top: 18px; }
+}

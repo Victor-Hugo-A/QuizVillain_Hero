@@ -1,16 +1,61 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { QuizService } from '../../services/quiz.service';
 
 @Component({
   selector: 'app-result',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './result.html',
-  styleUrls: ['./result.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./result.scss']
 })
 export class ResultComponent {
-  @Input({ required: true }) title!: string;
-  @Input({ required: true }) description!: string;
-  @Input({ required: true }) image!: string;
-  @Input({ required: true }) score!: number;
+  constructor(private quiz: QuizService) {}
+
+  // Signals getters (evita “used before initialization”)
+  get st() { return this.quiz.state; }
+
+  get title() {
+    // 'Hero' | 'Vilão' | 'Anti-herói'
+    return this.quiz.getResultType(this.st().moralScore);
+  }
+
+  // chave para imagem no /public/images
+  get kind(): 'hero' | 'villain' | 'anti-hero' {
+    if (this.title === 'Hero') return 'hero';
+    if (this.title === 'Vilão') return 'villain';
+    return 'anti-hero';
+  }
+
+  // caminho público (Vite/Angular 17+ serve /public na raiz)
+  get imageSrc() {
+    return `/images/${this.kind}.png`;
+  }
+
+  get description() {
+    switch (this.title) {
+      case 'Hero':
+        return 'Você tende a agir pelo coletivo, assume responsabilidades e inspira confiança.';
+      case 'Vilão':
+        return 'Ambição, estratégia e zero paciência para limites. Canalize esse poder com sabedoria.';
+      default:
+        return 'Equilíbrio entre luz e sombra: pragmático, adaptável e difícil de rotular.';
+    }
+  }
+
+  share() {
+    const s = this.st();
+    const text = `Cai em ${this.title}! Pontos: ${s.score} em ${s.total} perguntas.`;
+    if (navigator.share) {
+      navigator.share({ title: 'Hero/Villain Quiz', text, url: location.href }).catch(()=>{});
+    } else {
+      navigator.clipboard?.writeText(`${text} — ${location.href}`);
+      alert('Resultado copiado!');
+    }
+  }
+
+  replay() {
+    this.quiz.reset();
+    location.href = '/';
+  }
 }

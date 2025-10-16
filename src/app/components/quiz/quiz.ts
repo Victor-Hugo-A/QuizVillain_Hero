@@ -1,57 +1,64 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
+import {Router, RouterLink} from '@angular/router';
 import { QuizService } from '../../services/quiz.service';
 import { QuestionComponent } from '../question/question';
-import { ResultComponent } from '../result/result';
 
 @Component({
   selector: 'app-quiz',
   standalone: true,
-  imports: [QuestionComponent, ResultComponent],
+  imports: [QuestionComponent, RouterLink], // ✅ necessário p/ <app-result> e <app-question>
   templateUrl: './quiz.html',
-  styleUrls: ['./quiz.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./quiz.scss']
 })
 export class QuizComponent {
   private quiz = inject(QuizService);
+  private router = inject(Router);
 
   state = this.quiz.state;
-  progress = this.quiz.progress;
   current = this.quiz.currentQuestion;
+  progress = this.quiz.progress;
 
   finished = computed(() => this.state().finished);
-  score = computed(() => this.state().score);
+  score    = computed(() => this.state().score);
 
-  get headerAccent(): 'hero' | 'villain' | 'neutral' {
-    const s = this.score();
-    if (s >= 6) return 'hero';
-    if (s <= -6) return 'villain';
+  ngOnInit() {
+    // inicia a partida se ainda não iniciou
+    if (!this.state().started && !this.state().finished && this.state().total === 0) {
+      this.quiz.start();
+    }
+  }
+
+  onPick(optionId: string) {
+    this.quiz.answerById(optionId);
+    if (this.state().finished) this.router.navigateByUrl('/result');
+  }
+
+  reset() {
+    this.quiz.reset();
+    this.router.navigateByUrl('/');
+  }
+
+  // usado nos power-ups caso você os tenha no template desta tela
+  freeze() { this.quiz.powerFreeze(); }
+  dbl()    { this.quiz.powerDouble(); }
+  skip()   { this.quiz.powerSkip(); }
+  resume() { this.quiz.resumeTimer(); }
+
+  // Acento visual por “tendência” moral (se usado no template)
+  get headerAccent(): 'hero'|'villain'|'neutral' {
+    const m = this.quiz.state().moralScore;
+    if (m >= 6) return 'hero';
+    if (m <= -6) return 'villain';
     return 'neutral';
   }
 
-  onPick(choice: string) {
-    this.quiz.selectAnswer(choice as any); // 'hero' | 'villain' | 'neutral'
-  }
+  // ✅ fornecidos p/ <app-result> no quiz.html
+  resultTitle = computed(() => this.quiz.getResultType(this.quiz.state().moralScore));
 
-  resultTitle = computed(() => this.quiz.getResultType(this.score()));
   resultInfo = computed(() => {
     const t = this.resultTitle();
-    if (t === 'Hero') {
-      return {
-        img: '/images/hero.png',
-        desc: 'Você tende a agir pelo coletivo, assumir responsabilidades e inspirar confiança.'
-      };
-    }
-    if (t === 'Vilão') {
-      return {
-        img: '/images/villain.png',
-        desc: 'Ambição e estratégia à flor da pele. Canalize esse poder com sabedoria.'
-      };
-    }
-    return {
-      img: '/images/anti-hero.png',
-      desc: 'Você navega no meio-termo: pondera contexto, custos e faz o necessário.'
-    };
+    if (t === 'Hero')   return { img: '/images/hero.png',    desc: 'Você age pelo coletivo e inspira confiança.' };
+    if (t === 'Vilão')  return { img: '/images/villain.png', desc: 'Ambição e estratégia sem paciência para limites.' };
+    return                 { img: '/images/anti-hero.png',    desc: 'Equilíbrio tenso entre luz e sombra — pragmático.' };
   });
-
-  reset() { this.quiz.reset(); }
 }

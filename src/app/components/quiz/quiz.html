@@ -12,21 +12,19 @@
   </div>
 
   @if (!finished()) {
-    <div class="anim-in">
-      <app-question
-        [question]="current()!"
-        (pick)="onPick($event)" />
-    </div>
-  } @else {
-    <div class="anim-in">
-      <app-result
-        [title]="resultTitle()"
-        [description]="resultInfo().desc"
-        [image]="resultInfo().img"
-        [score]="score()" />
-      <div class="again">
-        <button type="button" (click)="reset()">Refazer</button>
+    @if (current()) {
+      <div class="anim-in">
+        <app-question
+          [question]="current()!"
+          (pick)="onPick($event)" />
       </div>
+    } @else {
+      <div class="card anim-in">Carregando…</div>
+    }
+  } @else {
+    <div class="anim-in card">
+      <p>Concluído. Abrindo tela de resultados…</p>
+      <a routerLink="/result" class="badge">Ir agora</a>
     </div>
   }
 </div>

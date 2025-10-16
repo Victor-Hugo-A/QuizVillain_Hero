@@ -1,42 +1,17 @@
-.wrap {
-  display: grid;
-  gap: 16px;
-  --accent-now: var(--accent);
+.wrap{ display:grid; gap:16px; }
+.progress{
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 14px; overflow: hidden;
+  box-shadow: 0 14px 40px rgba(0,0,0,.35);
 }
-.wrap[data-accent="hero"]   { --accent-now: var(--brand-hero); }
-.wrap[data-accent="villain"]{ --accent-now: var(--brand-villain); }
-
-.progress {
-  background: rgba(255,255,255,.04);
-  border: 1px solid rgba(255,255,255,.06);
-  border-radius: var(--radius);
-  overflow: hidden;
-  box-shadow: var(--shadow);
+.bar{
+  height: 8px;
+  background: linear-gradient(90deg, var(--brand,#7c4dff), var(--brand2,#22d3ee));
+  width: 0; transition: width .25s ease;
 }
-.bar {
-  height: 6px;
-  background: linear-gradient(90deg, var(--accent-now), transparent);
-  transition: width .25s ease;
+.meta{
+  display:flex; align-items:center; justify-content:space-between;
+  padding: 10px 12px; font-size:.92rem; color:#b8c2d9;
 }
-.meta {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 10px 12px; font-size: .9rem; color: var(--muted);
-}
-.meta .score { color: #d9deea; font-weight: 600; }
-
-.again { margin-top: 8px; }
-
-/* ===== Animação puramente em CSS (sem Angular Animations) ===== */
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.anim-in {
-  animation: fadeInUp .16s ease-out both;
-}
-
-/* Respeita usuários com redução de movimento */
-@media (prefers-reduced-motion: reduce) {
-  .bar { transition: none; }
-  .anim-in { animation: none; }
-}
+.score{ color:#e9ecf5; font-weight:800; }
