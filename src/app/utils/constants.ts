@@ -2,6 +2,12 @@ import type { Question, Category, Difficulty } from '../models/quiz.model';
 
 export const CATEGORIES: Category[] = ['ética','decisões','liderança','tecnologia'];
 export const DIFFICULTIES: Difficulty[] = ['easy','medium','hard'];
+export const DIFFICULTY_LABELS = {
+  easy: 'Fácil',
+  medium: 'Médio',
+  hard: 'Difícil',
+  todas: 'Misto'
+} as const;
 
 const q = (id:string, category:Category, difficulty:Difficulty, prompt:string, opts:[string,number][]) =>
   ({

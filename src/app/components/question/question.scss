@@ -16,3 +16,11 @@
 .option[data-align="hero"]:hover   { box-shadow: 0 0 0 2px rgba(34,197,94,.35) inset; }
 .option[data-align="villain"]:hover{ box-shadow: 0 0 0 2px rgba(239,68,68,.35) inset; }
 .option[data-align="neutral"]:hover{ box-shadow: 0 0 0 2px rgba(99,102,241,.25) inset; }
+
+.q-meta{ margin: -4px 0 8px 0; }
+.badge.lvl{
+  display:inline-block; font-weight:800; font-size:.78rem;
+  padding:.2rem .55rem; border-radius:999px;
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.06); color:#cfe2ff;
+}

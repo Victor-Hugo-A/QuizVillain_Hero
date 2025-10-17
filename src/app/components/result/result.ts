@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { QuizService } from '../../services/quiz.service';
+import {DIFFICULTY_LABELS} from '../../utils/constants';
 
 @Component({
   selector: 'app-result',
@@ -20,7 +21,16 @@ export class ResultComponent {
     return this.quiz.getResultType(this.st().moralScore);
   }
 
-  // chave para imagem no /public/images
+  get levelLabel() {
+    // se preferir, pode inferir por pergunta atual; aqui usamos a config da partida
+    const s = this.st();
+    // tentativa de encontrar em localStorage caso tenha vindo por rota sem service (opcional)
+    const label = (this as any).quiz?.config?.()?.difficulty ?? 'todas';
+    return DIFFICULTY_LABELS[label as keyof typeof DIFFICULTY_LABELS] ?? 'Misto';
+  }
+
+
+// chave para imagem no /public/images
   get kind(): 'hero' | 'villain' | 'anti-hero' {
     if (this.title === 'Hero') return 'hero';
     if (this.title === 'Vilão') return 'villain';

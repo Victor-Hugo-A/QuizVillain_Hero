@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import {DIFFICULTY_LABELS} from '../../utils/constants';
 
 @Component({
   selector: 'app-leaderboard',
@@ -21,11 +22,16 @@ export class LeaderboardComponent {
   get rows() {
     const key = 'hv-quiz-leaderboard';
     const list = JSON.parse(localStorage.getItem(key) || '[]') as Array<any>;
-    return list.map(r => ({
-      ...r,
-      profile: r.profile ?? this.computeProfile(r.moral ?? 0, r.nn ?? 0, r.total ?? 0)
-    }));
+    return list.map(r => {
+      const lvl = r.level ?? 'todas';
+      const levelLabel = DIFFICULTY_LABELS[lvl as keyof typeof DIFFICULTY_LABELS] ?? 'Misto';
+      return {
+        ...r,
+        profile: r.profile ?? this.computeProfile(r.moral ?? 0, r.nn ?? 0, r.total ?? 0),
+        levelLabel
+      };
+    });
   }
 
-  clear(){ localStorage.removeItem('hv-quiz-leaderboard'); }
+clear(){ localStorage.removeItem('hv-quiz-leaderboard'); }
 }

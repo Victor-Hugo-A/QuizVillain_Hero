@@ -12,7 +12,8 @@
       <thead>
       <tr>
         <th>#</th>
-        <th>Perfil</th>     <!-- ✅ nova coluna -->
+        <th>Perfil</th>
+        <th>Nível</th>
         <th>Pontos</th>
         <th>Qtd</th>
         <th>Streak</th>
@@ -30,6 +31,7 @@
                 {{ r.profile }}
               </span>
             </td>
+            <td><span class="badge lvl">{{ r.levelLabel }}</span></td>
             <td>{{ r.score }}</td>
             <td>{{ r.total }}</td>
             <td>{{ r.streak }}</td>

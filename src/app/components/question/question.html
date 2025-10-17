@@ -1,6 +1,14 @@
 <article class="card">
   <h2 class="prompt">{{ question.prompt }}</h2>
 
+  <div class="q-meta">
+  <span class="badge lvl">
+    {{ question.difficulty === 'easy' ? 'Fácil' :
+    question.difficulty === 'medium' ? 'Médio' :
+      question.difficulty === 'hard' ? 'Difícil' : 'Misto' }}
+  </span>
+  </div>
+
   <ul class="options">
     @for (opt of question.options; track opt.id) {
       <li>

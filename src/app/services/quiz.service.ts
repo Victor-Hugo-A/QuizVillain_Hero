@@ -273,7 +273,8 @@ export class QuizService {
       lives: this._state().lives,
       moral: this._state().moralScore,
       nn,              // ← salva não-neutras jogadas
-      profile          // ← perfil já resolvido
+      profile,          // ← perfil já resolvido
+      level: this._config().difficulty
     };
     const arr = JSON.parse(localStorage.getItem(key) || '[]');
     arr.push(row);
