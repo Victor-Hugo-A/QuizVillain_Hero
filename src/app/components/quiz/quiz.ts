@@ -1,12 +1,13 @@
-import { Component, computed, inject } from '@angular/core';
-import {Router, RouterLink} from '@angular/router';
+// PATCH: acrescente/imports se faltar
+import { Component, computed, inject, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { QuizService } from '../../services/quiz.service';
 import { QuestionComponent } from '../question/question';
 
 @Component({
   selector: 'app-quiz',
   standalone: true,
-  imports: [QuestionComponent, RouterLink], // ✅ necessário p/ <app-result> e <app-question>
+  imports: [QuestionComponent],
   templateUrl: './quiz.html',
   styleUrls: ['./quiz.scss']
 })
@@ -20,17 +21,33 @@ export class QuizComponent {
 
   finished = computed(() => this.state().finished);
   score    = computed(() => this.state().score);
+  streak   = computed(() => this.state().streak);
+
+  // 🔥 flag para animar quando o streak aumentar
+  streakFlash = signal(false);
 
   ngOnInit() {
-    // inicia a partida se ainda não iniciou
-    if (!this.state().started && !this.state().finished && this.state().total === 0) {
-      this.quiz.start();
-    }
+    const s = this.state();
+    if (!s.started && !s.finished && s.total === 0) this.quiz.start();
   }
 
   onPick(optionId: string) {
-    this.quiz.answerById(optionId);
-    if (this.state().finished) this.router.navigateByUrl('/result');
+    const before = this.streak();         // streak atual
+    this.quiz.answerById(optionId);       // responde
+
+    // se terminou, vai para resultados
+    if (this.state().finished) {
+      queueMicrotask(() => this.router.navigateByUrl('/result'));
+      return;
+    }
+
+    // se o streak aumentou, disparamos a animação
+    const after = this.streak();
+    if (after > before) {
+      this.streakFlash.set(false);
+      // força reflow para reiniciar a animação
+      requestAnimationFrame(() => this.streakFlash.set(true));
+    }
   }
 
   reset() {
@@ -38,27 +55,10 @@ export class QuizComponent {
     this.router.navigateByUrl('/');
   }
 
-  // usado nos power-ups caso você os tenha no template desta tela
-  freeze() { this.quiz.powerFreeze(); }
-  dbl()    { this.quiz.powerDouble(); }
-  skip()   { this.quiz.powerSkip(); }
-  resume() { this.quiz.resumeTimer(); }
-
-  // Acento visual por “tendência” moral (se usado no template)
   get headerAccent(): 'hero'|'villain'|'neutral' {
     const m = this.quiz.state().moralScore;
     if (m >= 6) return 'hero';
     if (m <= -6) return 'villain';
     return 'neutral';
   }
-
-  // ✅ fornecidos p/ <app-result> no quiz.html
-  resultTitle = computed(() => this.quiz.getResultType(this.quiz.state().moralScore));
-
-  resultInfo = computed(() => {
-    const t = this.resultTitle();
-    if (t === 'Hero')   return { img: '/images/hero.png',    desc: 'Você age pelo coletivo e inspira confiança.' };
-    if (t === 'Vilão')  return { img: '/images/villain.png', desc: 'Ambição e estratégia sem paciência para limites.' };
-    return                 { img: '/images/anti-hero.png',    desc: 'Equilíbrio tenso entre luz e sombra — pragmático.' };
-  });
 }

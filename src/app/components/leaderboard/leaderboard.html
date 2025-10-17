@@ -9,11 +9,27 @@
 
   @if (rows.length) {
     <table class="rank">
-      <thead><tr><th>#</th><th>Pontos</th><th>Qtd</th><th>Streak</th><th>Vidas</th><th>Quando</th></tr></thead>
+      <thead>
+      <tr>
+        <th>#</th>
+        <th>Perfil</th>     <!-- ✅ nova coluna -->
+        <th>Pontos</th>
+        <th>Qtd</th>
+        <th>Streak</th>
+        <th>Vidas</th>
+        <th>Quando</th>
+      </tr>
+      </thead>
       <tbody>
         @for (r of rows; track r.when; let i = $index) {
           <tr>
             <td>{{ i + 1 }}</td>
+            <td>
+              <span class="badge"
+                    [attr.data-kind]="r.profile === 'Hero' ? 'hero' : r.profile === 'Vilão' ? 'villain' : 'anti'">
+                {{ r.profile }}
+              </span>
+            </td>
             <td>{{ r.score }}</td>
             <td>{{ r.total }}</td>
             <td>{{ r.streak }}</td>

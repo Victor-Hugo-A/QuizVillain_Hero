@@ -30,11 +30,13 @@
     </div>
 
     <div class="start__group">
-      <label class="start__label">Tempo por pergunta</label>
+      <label class="start__label">Tempo por pergunta
+        <span class="time-chip">{{ cfg().perQuestionSeconds }}s</span>
+      </label>
       <div class="start__choices">
         @for (t of [10,15,20,30]; track t) {
           <button type="button"
-                  class="pill"
+                  class="pill pill--round"
                   [class.is-active]="cfg().perQuestionSeconds===t"
                   (click)="setTime(t)">{{t}}s</button>
         }

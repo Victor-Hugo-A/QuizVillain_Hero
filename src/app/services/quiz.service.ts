@@ -241,10 +241,19 @@ export class QuizService {
     }
   }
 
-  // ---------- Resultado & Leaderboard ----------
-  getResultType(score = this._state().moralScore): ResultType {
-    if (score >= 6) return 'Hero';
-    if (score <= -6) return 'Vilão';
+  private computeResultThreshold(totalPlayed: number): number {
+    // pelo menos 1, e metade arredondada pra cima
+    return Math.max(1, Math.ceil(totalPlayed * 0.5));
+  }
+
+  getResultType(moral = this._state().moralScore): 'Hero' | 'Anti-herói' | 'Vilão' {
+    // conta apenas respostas com delta != 0
+    const nn = this._state().answers.filter(a => a.delta !== 0).length;
+    const played = nn || 0;
+    const t = Math.max(1, Math.ceil(played * 0.5)); // maioria simples sobre não-neutras
+
+    if (moral >= t)   return 'Hero';
+    if (moral <= -t)  return 'Vilão';
     return 'Anti-herói';
   }
 
@@ -254,12 +263,17 @@ export class QuizService {
 
     // salva ranking local
     const key = 'hv-quiz-leaderboard';
+    const nn = this._state().answers.filter(a => a.delta !== 0).length;
+    const profile = this.getResultType(this.state().moralScore);
     const row = {
       when: Date.now(),
       score: this._state().score,
       total: this._state().total,
       streak: this._state().streak,
-      lives: this._state().lives
+      lives: this._state().lives,
+      moral: this._state().moralScore,
+      nn,              // ← salva não-neutras jogadas
+      profile          // ← perfil já resolvido
     };
     const arr = JSON.parse(localStorage.getItem(key) || '[]');
     arr.push(row);
